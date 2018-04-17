@@ -1,0 +1,148 @@
+Curso Angular 4
+
+1.- Instalar angular cli con:
+    npm install ng-cli
+2.- Crear app con angular cli:
+    ng new MarvelBech --routing
+3.- Crear componente
+    ng g component
+4.- Limpiar html del componente general.
+5.- Incluir la ruta del nuevo componente creado en el modulo de app.routing y mostrar las dos alternativas:
+    * Dejar el path vacío
+    * Crear el path y hacer redirectTo el path creado.
+6.- Crear variable en el componente creado para mostrar two way binding en el html {{}}.
+7.- Incluir css en la app: Cómo importar una librería con npm. Editar el angular-cli en styles. Corroborar que se 
+importó bien la librería.
+8.- Crear clases que se usaran en la app:
+    8.1.- Crear dir dónde se alojaran las clases.
+    8.2.- Crear con ng cli la clase: ng g class /classes/NombreClase
+    8.3.- Crear atributos clase.
+    8.4.- Importarlo en el componente que se usará.
+    8.5.- Crear atributo listaheroes en el componente dónde se vacearán y llenarlo con uno de ejemplo.
+    8.6.- Verificar en el componente que se muestra la info de la clase seteada.
+9.- Creamos servicio para consultar API de Marvel:
+    ng g service Heroes -m app.module.ts.
+    9.1.- Debe añadirse como provider en el módulo de la app.
+    9.2.- Crear la función para consultar api con httpClientModule -> colocarlo en los imports del módulo de la app.
+    9.3.- Generar el listado de heroes desde el servicio con los atributos que sólo vamos a utilizar de cada uno. (quitarlo del componente)-
+    9.4.- Incluir el parametro opcional de busqueda en la funcion
+10.- Agregamos el campo de búsqueda:
+    10.1._ Agregamos el formulario en el html con la funciona ngSubmit (que ahorita rompe)
+    10.2._ Incluimos el Modulo de formularios en app.module
+    10.3._ Creamos el atributo searchString en el componente y lo linkeamos con el input de busqueda
+    10.4._ Implementamos la busqueda
+11. Implementamos paginación:
+    11.1._ Agregamos el HTML al componente.
+    11.2._ En el servicio agregamos los atributos page, step y total.
+    11.3._ Agregamos el uso de page en la funcion getHeroes, seteamos el total (ultima pagina).
+    11.4._ Creamos las funcionas nextPage y prevPage en el controlados y las llamamos.
+    11.5._ Agregamos los ngIf para esconder los botones de prev y next.
+12. Implementamos el heroe profile:
+    12.1._ ng g component HeroProfile.
+    12.2._ Agregamos la ruta al router con el parametro id.
+    12.3._ Agregamos los links.
+    12.4._ Capturamos el parametro url en el componente nuevo.
+    12.5._ Agregamos el html al componente.
+    12.6._ Agregamos la funcion getHeroe al servicio que devuelva un observable.
+    12.7._ Usamos la nueva funcion del servicio desde el componente en el ngOnInit
+    12.8._ Ponemos el ngIf con un ng-container para que no de error.
+    12.9._ Ponemos el boton de "Atrás".
+13. Heroe Profile.
+14. Inyectando un componente dentro de otro:
+    14.1._ Se crea el componente desde cónsola, con ngcli
+    ng g component modal-poll
+    14.2._ Se crea el html(quitando pasos posteriores y agregando css)
+    14.3._ Se agrega la propiedad (en true) y la función
+    que permitirá mostrar o no el modal. -> Se hace la prueba.
+    14.4._ Se agrega como ruta a nuestra app para poder visualizar que está bien creada.
+    14.5._ Se agrega la propiedad input que será llenada por el componente padre.
+    @Input() public title_modal : string;
+    14.6._Se importa el componente hijo en el componente padre:
+        14.6.1._ Se agrega la ruta del componente hijo en el componente padre.
+        14.6.2._ Se agrega el tag del componente hijo en el componente padre.
+        
+    14.7._ Se hace el binding entre los componentes:
+        14.7.1._ Se crea el atributo que va a ser llenado desde el componente padre y se 
+        hace la asignación desde el tag.
+        14.7.2._ Se crea una variable local de template, que hace referencia al elemento html
+        del componente con #.
+        14.7.3._ Se importa ViewCHild @ViewChild('modal') modal; y ya podemos usar las funciones
+        de nuestro componente hijo.
+        14.7.4._ Activamos este componente mediante un evento del componente padre. 
+        (click)=funcion del comp padre que contiene funcion del comp hijo. En launchModal
+        seteamos el valor que tendra el titulo y llamamos a mostrar modal.
+    14.8._ Ahora mandamos información desde el componente hijo al componente padre, a 
+    través de una clase que permite transmitir eventos. 
+        14.8.1._ Creamos el nombre del evento y le decimos de qué tipo será:
+        @Output() setTeam:EventEmitter<string> = new EventEmitter<string>();
+        14.8.2._ Creamos la función en la que se generará la información que se transmitirá.
+        primero en el ts
+        send_team(team: string): void {
+        Luego en el html:
+        <div class="group bg-blue to_the_left" (click)="send_team('azul')">Azul</div>
+        14.8.3._ Recibimos el evento emitido en el padre:
+        14.8.3.1._ Preparamos el contexto en el que será usada la información que enviará 
+        el componente hijo.
+            14.8.3.1.1._ Refactor HeroService
+            Se definen dos variables más en el servicio HeroesService:
+            Como queremos que esta información esté disponible para los dos componentes:
+            public group_colors = {"azul" : "#1f8ff7",
+                        "violeta":"#a43de3",
+                        "naranjo":"#df5c0f",
+                        "verde":"#0ea521"}
+  
+            public teams = new Map();
+            Se crea la función que buscará si el superheroe tiene equipo
+            getTeamColor(id):string{
+                if(this.teams.get(id)!=undefined){
+                return this.teams.get(id);
+                }
+                else{
+                return "";
+                }
+            }
+            Y se coloca en la construcción inicial de todos los héroes para que pinte
+            el color del equipo al que se le asignó.
+
+            14.8.3.1.2._ Manipulando la información recibida.
+            Se recibe la información a través del objeto $event. Se coloca esto en el html:
+            (setTeam)              = "getTeam($event)"
+            nombreEnComponenteHijo    nombreEnComponentePadre
+            Esa función recibirá el evento transmitido, que en esencia es el string enviado.
+            Se agrega al Mapa creado en el servicio, para establecer una traza de cuantos 
+            héroes han sido catalogados. 
+            Ahora en el html del componente padre, podremos ver qué equipo se eligió.
+            <p *ngIf="team!=undefined && team!=''">Acabas de clasificar a tu heroe en el equipo <b [style.color]="heroesService.group_colors[team]">{{team}}</b></p>
+            Además esto servirá para que el cambio hecho en el componente más interno,
+            se refleje en el más externo.
+            Se agrega en el listado-de-heroescomponent.html [style.border-color]="heroesService['group_colors'][heroe.teamColor]" 
+            <a [routerLink]="'/heroe/' + heroe.id" class="hero-entry" [style.background-image]="'url(' + heroe.thumbnail.path + '.' + heroe.thumbnail.extension + ')'">
+    14.9._ Revisando la información agregada al iniciar el componente.
+            Ahora, vamos a ver si se agregó bien el equipo al superheroe. Deben ocurrir dos
+            cosas:
+                - Al ingresar al componente heroe-profile.html, debe indicar el equipo al cual
+                ya pertenece el superheroe.
+                - Al ingresar al componente modal-poll, se debe marcar la selección realizada
+                previamente.
+            Lo primero se logrará revisando si el superheroe pertenece a algún grupo,
+            al invocar la función, que se colocará en la creación del heroe:
+            this.heroesService.teams.get(temp.id). Así mismo, se guardará ese valor en la
+            variable team del componente, que inicialmente la inicializamos en "".
+
+            Lo segundo se logra mandandole el team seleccionado que se guardó en la
+            variable team del componente heroes.profile, al componente del modal a través 
+            de una variable con decorador @Input, que permitirá instanciar la variable 
+            team_selected del componente modal desde el componente padre que es heroes-profile.
+            [team_selected]="team"
+            <modal-poll (setTeam)="getTeam($event)" [title_modal]="question_modal"  #modal></modal-poll>
+            Finalmente, en la interfaz del componente hijo (modal-poll), nos valemos de la
+            directiva ngClass, para establecer una lógica que permita agregar una clase selected
+            al div que haya sido seleccionado:
+            [ngClass]="{'selected': team_selected=='azul'}"
+            <div class="group bg-blue to_the_left" (click)="send_team('azul')">Azul</div>
+
+
+
+
+
+    
