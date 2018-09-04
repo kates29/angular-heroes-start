@@ -54,25 +54,27 @@ Y algo muy importante es que ya tiene muchas buenas prácticas oficiales preconf
 
 Para generar un nuevo esqueleto de aplicación (una aplicación mínima) ideal para empezar a desarrollar siguiendo las mejores prácticas y estándares de programación en Angular, podemos hacer uso del comando _ng new_.
 
-Supóngase que queremos crear un nuevo proyecto llamado *"BechMarvel"*:
+Supóngase que queremos crear un nuevo proyecto llamado *"ACNMarvel"*:
 
 ```
-> ng new BechMarvel -routing
+> ng new ACNMarvel -routing
 ```
 
 Pero, ¿que está pasando cuando ejecutamos este comando?:
 
-- Un nuevo directorio llamado "BechMarvel" es creado.
-- Todos los archivos del source de tu aplicación son creados, basándose en el nombre ("BechMarvel" en este caso) y siguiendo las buenas prácticas oficiales de Angular.
+- Un nuevo directorio llamado "ACNMarvel" es creado.
+- Todos los archivos del source de tu aplicación son creados, basándose en el nombre ("ACNMarvel" en este caso) y siguiendo las buenas prácticas oficiales de Angular.
 - Las dependencias son instaladas (usando NPM).
 - Se configura TypeScript.
 - Se configura Karma (Testing).
 - Se configura Protractor (Testing).
 - El proyecto queda listo y configurado para que puedas usarlo como base y seguir construyendo sobre el mismo.
+Para más información sobre los flags que tiene disponibles, visitar:
+[Angular CLI Flags](https://github.com/angular/angular-cli/wiki/1-x-home)
 
 Para continuar, nos dirigiremos al directorio recién creado dónde se creo la aplicación, para ello, en el terminal hacemos:
 ```
->  cd BechMarvel
+>  cd ACNMarvel
 ```
 
 La forma más sencilla de ejecutar una aplicación para hacer pruebas y desarrollar nuevas funcionalidades es mediante el siguiente comando:
@@ -212,7 +214,7 @@ Vamos a editar el template de nuestro componente ListadoDeHeroes, en `src/app/li
 Vamos a instalar el paquete de bootstrap mediante _npm_:
 
 ```
-> npm install --save bootstrap
+> npm install --save bootstrap@3
 ```
 
 Esto nos va a descargar el estilo de Bootstrap 3 en la siguiente ruta `../node_modules/bootstrap/dist/css/bootstrap.min.css`, ahora solo tenemos que configurar Angular CLI para que incluya este archivo de forma automática en nuestra aplicación, para esto editamos el archivo `.angular-cli.json` en la raiz de nuestra aplicación:
@@ -228,7 +230,7 @@ Esto nos va a descargar el estilo de Bootstrap 3 en la siguiente ruta `../node_m
 
 ## 8 - Creación de la clase Heroe
 
-Una de las ventajas de desarrollar con _TypeScript_ es que aplicar conceptos de la programación orientada a objetos es mucho más amigable, y con Angular CLI, crear nuevas clases es muy sencillo. Primero creemos una carpeta en nuestra aplicación para guardar las clases:
+Una de las ventajas de desarrollar con _TypeScript_ es que aplicar conceptos de la programación orientada a objetos es mucho más amigable, y con Angular CLI, crear nuevas clases es muy sencillo. Primero creamos una carpeta en nuestra aplicación para guardar las clases:
 
 ```
 > mkdir src/app/classes
@@ -266,7 +268,7 @@ export class ListadoDeHeroesComponent implements OnInit {
 
 ## 9 - Mostrar la lista de héroes en pantalla
 
-Vamos a descargar [este](https://raw.githubusercontent.com/moalover/angular-tutorial/master/src/styles.css) archivo css y vamos a sobreescribir el siguiente archivo en nuestro proyecto `src/styles.css`.
+Vamos a descargar [este](https://raw.githubusercontent.com/moalover/angular-tutorial/master/src/styles.css) archivo css y vamos a sobreescribir el siguiente archivo en nuestro proyecto `src/styles.css`. De igual forma, vamos a descargar la siguiente [imagen](https://raw.githubusercontent.com/kates29/angular-heroes-start/master/src/assets/bg.jpg) y la vamos a guardar en el directorio /assets de nuestro proyecto.
 
 Después vamos a incluir el siguiente fragmento en el template de nuestro componente en `src/app/listado-de-heroes/listado-de-heroes.component.html`:
 
@@ -559,7 +561,7 @@ const routes: Routes = [
 ];
 ```
 
-Hasta ahora nuestras entradas en la lista de héroes del componente _ListadoDeHeroes_ han sido enlaces (\<a>) que no van a ningún lugar (no tienen atributo href), eso está a punto de cambiar. Editemos el template del _ListadoDeHeroes_ para que los enlaces de cada héroe enruten al usuario al compente _HeroProfile_ recién creado, para eso editemos `src/app/listado-de-heroes/listado-de-heroes.component.html`:
+Hasta ahora nuestras entradas en la lista de héroes del componente _ListadoDeHeroes_ han sido enlaces (\<a>) que no van a ningún lugar (no tienen atributo href), eso está a punto de cambiar. Editemos el template del _ListadoDeHeroes_ para que los enlaces de cada héroe enruten al usuario al componente _HeroProfile_ recién creado, para eso editemos `src/app/listado-de-heroes/listado-de-heroes.component.html`:
 
 ```
     <div *ngFor="let heroe of heroesService.heroes" class="col-xs-12 col-sm-6 col-md-3">
@@ -974,7 +976,7 @@ Para hacer más rápido el trabajo, reemplazamos todo el bloque de botones con:
                     </div>
                   </div>
 ```
-
+<!--
 Esperamos el curso haya resultado útil, por favor, nos serviría mucho si nos dan su feedback a través de este enlace: [ENCUESTA](https://form.jotformz.com/73514590034654).
 
 
@@ -1306,3 +1308,4 @@ describe('CapitalizePipe', () => {
 });
 
 ```
+-->

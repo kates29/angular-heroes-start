@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('marvel-bech App', () => {
+describe('acnmarvel App', () => {
   let page: AppPage;
 
   beforeEach(() => {
