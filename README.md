@@ -777,7 +777,7 @@ import { ModalPollComponent } from './modal-poll/modal-poll.component';
 ```
 De esta forma, al acceder a `http://localhost:4200/modal-poll`,podremos ver el modal que creamos.
 
-### Comunicación entre componente padre hacia componente hijo
+### 14.1- Comunicación entre componente padre hacia componente hijo
 
 Ya que comprobamos la creación de nuestro nuevo componente, sigamos con nuestro objetivo: conectar este componente con el resto de la aplicación.
 
