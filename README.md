@@ -431,7 +431,7 @@ Antes de eso debemos asegurarnos que nuestro servicio _Heroes_ soporte el filtra
   }
 ```
 
-Lo segundo es agregar un nuevo atributo a la clase de nuestro componente _ListadoDeHeroes_ que nos sirva como campo de búsqueda, y adicionalmente creamos una función que realice dicha búsqueda, para esto editamos `src/app/listado-de-heroes/listado-de-heroes.component.html`:
+Lo segundo es agregar un nuevo atributo a la clase de nuestro componente _ListadoDeHeroes_ que nos sirva como campo de búsqueda, y adicionalmente creamos una función que realice dicha búsqueda, para esto editamos `src/app/listado-de-heroes/listado-de-heroes.component.ts`:
 
 ```
 export class ListadoDeHeroesComponent implements OnInit {
@@ -777,11 +777,14 @@ import { ModalPollComponent } from './modal-poll/modal-poll.component';
 ```
 De esta forma, al acceder a `http://localhost:4200/modal-poll`,podremos ver el modal que creamos.
 
+### Comunicación entre componente padre hacia componente hijo
+
 Ya que comprobamos la creación de nuestro nuevo componente, sigamos con nuestro objetivo: conectar este componente con el resto de la aplicación.
 
 Primero, debemos editar `src/app/modal-poll/modal-poll.component.ts` y agregarle un atributo a nuestra clase que permita cambiar el nombre del modal. Pero haremos esta asignación de nombre desde el componente padre. Aquí introduciremos el decorador @Input, que permite instanciar variables de un componente en otro. 
 ```
     @Input() public title_modal : string;
+
 ```
 Esta línea de código en esencia, lo que permite es que esa variable sea instanciada desde cualquier lugar de la aplicación.
 
@@ -831,6 +834,17 @@ Y las siguientes líneas de código en `src/app/hero-profile/hero-profile.compon
 ```
 <p><button type="button" class="btn btn-primary" (click)="launchModal()">Clasificar</button></p>
 ```
+Para que podamos visualizar el texto enviado por el componente padre(question_modal), debemos editar la siguiente línea en el file `src/app/modal-poll/modal-poll.html`:
+
+```
+<h4 class="modal-title">Soy un modal</h4>
+```
+por 
+
+```
+<h4 class="modal-title">{{title_modal}}</h4>
+```
+### 14.2- Comunicación entre componente hijo hacia componente padre
 
 Ahora queremos la comunicación del lado inverso, **queremos que el componente hijo le envíe información al componente padre**. La información que enviaremos será la elección del equipo elegido para un superhéroe en cuestión, para que se muestre en el profile del mismo. Para realizar esto, ocuparemos la clase *EventEmitter*, que permite enviar eventos entre componentes. El primer paso para realizar esto es crear en `src/app/modal-poll/modal-poll.component.ts` una variable que nos permita guardar el evento que vamos a crear y que posteriormente enviaremos, además esta variable debe contener el decorador Output que le indicará al componente que es una variable que se compartirá con otro componente:
 ```
@@ -852,6 +866,14 @@ send_team(team: string): void {
 Luego en el html, `src/app/modal-poll/modal-poll.component.html`, asociamos la función recién creada a un evento click. Lo que ocurrirá aquí es que desde la interfaz se mandará el string *azul* como evento, una vez sea clickado ese botón:
 ```
 <div class="group bg-blue to_the_left" (click)="send_team('azul')">Azul</div>
+
+```
+Hacemos lo mismo, con el resto de los colores:
+```
+<div class="group bg-violet" (click)="send_team('violeta')">Violeta</div>
+<div class="group bg-orange to_the_left" (click)="send_team('naranjo')">Naranjo</div>
+<div class="group bg-green" (click)="send_team('verde')">Verde</div>
+
 ```
 Lo que necesitamos ahora es preparar al componente padre para recibir tal evento, por tanto, en `src/app/hero-profile/hero-profile.component.ts`, creamos una variable que recibirá el team y la función que manipulará esa información guardada en *team*:
 ```
